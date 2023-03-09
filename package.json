@@ -1,0 +1,24 @@
+{
+  "name": "iweddingb-workspace",
+  "version": "1.0.0",
+  "description": "iweddingB-workspace",
+  "main": "index.js",
+  "scripts": {
+    "iweddingb": "yarn workspace @iweddingb-workspace/iweddingb",
+    "node": "yarn workspace @iweddingb-workspace/node",
+    "shared": "yarn workspace @iweddingb-workspace/shared",
+    "build": "yarn tsc --build --force"
+  },
+  "private": true,
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "packages/*"
+  ],
+  "dependencies": {
+    "typescript": "4.9.5"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.3"
+  }
+}
