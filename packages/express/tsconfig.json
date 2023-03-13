@@ -1,43 +1,19 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "module": "CommonJS",
-    "declaration": true,
-    "removeComments": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
     "target": "es2020",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false,
-    "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false,
-    "esModuleInterop": true,
     "paths": {
-      "@modules/*": [
-        "src/modules/*"
-      ],
-      "@common/*": [
-        "src/common/*"
-      ]
+      "@modules/*": ["src/modules/*"],
+      "@common/*": ["src/common/*"]
     }
   },
   "ts-node": {
-    "require": [
-      "tsconfig-paths/register"
-    ]
+    "require": ["tsconfig-paths/register"]
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.xml",
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["**/*.ts", "**/*.tsx", "**/*.xml"],
+  "exclude": ["node_modules"]
 }

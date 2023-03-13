@@ -45,7 +45,6 @@ export interface User {
   mini_time: string | any;
   logo: string | any;
   introduction: string | any;
-  "다양한 컨셉과 실내외를 오가는 다이나믹한 촬영, 신랑 신부님의 진심 어린 행복한 이야기를 담는 가을스튜디오!";
   file1: string | any;
   file2: string | any;
   file3: string | any;

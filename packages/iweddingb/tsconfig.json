@@ -1,9 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "ESNext"],
+    "module": "ESNext",
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": "./src",
+    "moduleResolution": "node",
     "paths": {
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"]

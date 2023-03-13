@@ -13,6 +13,7 @@ const GlobalStyles = createGlobalStyle`
     *{
       box-sizing: border-box;
     }
+    button {border:0 none;background-color:transparent;cursor:pointer}
     body {
       position: relative;
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',

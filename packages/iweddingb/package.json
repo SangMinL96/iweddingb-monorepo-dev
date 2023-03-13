@@ -11,17 +11,21 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@iweddingb-workspace/shared": "*",
     "@next/font": "13.1.6",
     "@types/node": "18.11.18",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "eslint-config-next": "13.1.6",
+    "framer-motion": "^10.2.4",
+    "hamburger-react": "^2.5.0",
     "next": "13.1.6",
     "react": "18.2.0",
+    "react-calendar": "^4.0.0",
     "react-dom": "18.2.0",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.5",
-    "@iweddingb-workspace/shared": "*"
+    "throttle-debounce": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
@@ -38,5 +42,8 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "peerDependencies": {
+    "dayjs": "^1.11.7"
   }
 }

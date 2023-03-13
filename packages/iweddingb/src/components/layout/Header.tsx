@@ -10,7 +10,7 @@ export default React.memo(Header);
 
 const Container = styled.section`
   width: 100%;
-  height: 80px;
-  background-color: white;
+  height: 150px;
+  background-color: #22eded;
   ${theme.flexCenter};
 `;

@@ -1,7 +1,12 @@
-import React from 'react';
+import dynamic from 'next/dynamic';
 
+const CalendarIndex = dynamic(() => import('@components/calendar/CalendarIndex'), { ssr: false });
 function HomeIndexPage() {
-  return <div>HomeIndexPage</div>;
+  return (
+    <div>
+      <CalendarIndex />
+    </div>
+  );
 }
 
 export default HomeIndexPage;

@@ -22,7 +22,11 @@
     "no-unused-vars": "off",
     "react/require-default-props": "off",
     "react/jsx-filename-extension": "off",
+    "no-useless-return": "off",
     "react/react-in-jsx-scope": "off",
-    "no-use-before-define": "off"
+    "no-use-before-define": "off",
+    "react/jsx-props-no-spreading": "off",
+    "import/no-extraneous-dependencies": "off",
+    "react/no-unstable-nested-components": "off"
   }
 }

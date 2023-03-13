@@ -2,6 +2,11 @@
 const nextConfig = {
   transpilePackages: ['@iweddingb-workspace/shared'],
   reactStrictMode: true,
+  compiler: {
+    styledComponents: {
+      ssr: false,
+    },
+  },
   experimental: {
     externalDir: true,
     scrollRestoration: true,
