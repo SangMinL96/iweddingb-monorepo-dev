@@ -1,16 +1,10 @@
 import { FocusEvent, MouseEvent } from 'react';
 
-const useMouseEvent = setOverId => {
-  const onMouseOver = (ev: MouseEvent<HTMLLIElement>) => {
-    setOverId(ev.currentTarget.id);
-  };
-  const onMouseOut = (ev: MouseEvent<HTMLLIElement>) => {
-    setOverId(null);
-  };
-  const onFocus = (ev: FocusEvent<HTMLLIElement>) => {};
-  const onBlur = (ev: FocusEvent<HTMLLIElement>) => {};
+const useMouseEvent = () => {
+  const onFocus = (ev: FocusEvent<HTMLDivElement>) => {};
+  const onBlur = (ev: FocusEvent<HTMLDivElement>) => {};
 
-  return { onMouseOver, onFocus, onMouseOut, onBlur };
+  return { onFocus, onBlur };
 };
 
 export default useMouseEvent;

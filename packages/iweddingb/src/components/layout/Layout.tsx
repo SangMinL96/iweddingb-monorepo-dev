@@ -43,6 +43,9 @@ const Body = styled.div`
   }
 `;
 const LeftMenuBox = styled.div`
+  #hamburger_menu {
+    display: none;
+  }
   @media (max-width: 1300px) {
     #left_menu {
       display: none;

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import useWindowDimensions from 'hooks/useWindowDimensions';
 import useMouseEvent from './hooks/useMouseEvent';
+import TileContent from './components/TileContent';
 
 function CalendarIndex() {
   const [curDate, setCurDate] = useState<Date>(new Date());
@@ -14,8 +15,7 @@ function CalendarIndex() {
   const [offsetHeight, setOffsetHeight] = useState<number>(0);
   const [row, setRow] = useState<Number>(0);
   const { height } = useWindowDimensions();
-  const [overId, setOverId] = useState(null);
-  const mouseEvent = useMouseEvent(setOverId);
+
   const onViewChange = ev => {
     setCurDate(ev.activeStartDate);
     // setSessionStore('schedule_rtnDate', moment(ev.activeStartDate).format('YYYY-MM-DD'));
@@ -33,8 +33,6 @@ function CalendarIndex() {
   }, [height]);
   return (
     <Container id='calendar_container' offsetHeight={`${offsetHeight}px`} row={Number(row)}>
-      {overId && <HoverName>{overId}</HoverName>}
-
       <Calendar
         inputRef={ref}
         calendarType='US'
@@ -46,74 +44,7 @@ function CalendarIndex() {
         tileDisabled={({ date, activeStartDate }) => {
           //   return scheduleTileDisabled({ date, activeStartDate, data, holidayData });
         }}
-        tileContent={({ date, view }) => (
-          <List>
-            <li id='웨딩촬영1' {...mouseEvent}>
-              웨딩촬영1
-              <div className='hover_box'>
-                마우스오버
-                <br />
-                두줄
-              </div>
-            </li>
-            <li
-              id='웨딩촬영2'
-              onMouseOver={() => setOverId('웨딩촬영2')}
-              onFocus={() => null}
-              onMouseOut={() => setOverId(null)}
-              onBlur={() => null}
-            >
-              웨딩촬영2
-              <div className='hover_box'>
-                마우스오버
-                <br />
-                두줄
-              </div>
-            </li>
-            <li
-              id='웨딩촬영3'
-              onMouseOver={() => setOverId('웨딩촬영3')}
-              onFocus={() => null}
-              onMouseOut={() => setOverId(null)}
-              onBlur={() => null}
-            >
-              웨딩촬영3
-              <div className='hover_box'>
-                마우스오버
-                <br />
-                두줄
-              </div>
-            </li>
-            <li
-              id='웨딩촬영4'
-              onMouseOver={() => setOverId('웨딩촬영4')}
-              onFocus={() => null}
-              onMouseOut={() => setOverId(null)}
-              onBlur={() => null}
-            >
-              웨딩촬영4
-              <div className='hover_box'>
-                마우스오버
-                <br />
-                두줄
-              </div>
-            </li>
-            <li
-              id='웨딩촬영5'
-              onMouseOver={() => setOverId('웨딩촬영5')}
-              onFocus={() => null}
-              onMouseOut={() => setOverId(null)}
-              onBlur={() => null}
-            >
-              웨딩촬영5
-              <div className='hover_box'>
-                마우스오버
-                <br />
-                두줄
-              </div>
-            </li>
-          </List>
-        )}
+        tileContent={({ date, view }) => <TileContent />}
       />
     </Container>
   );
@@ -149,6 +80,7 @@ const Container = styled.div<StyledType>`
       padding: 6px;
       font-size: 14px;
       border: 1px solid #eeeeee;
+      overflow: unset !important;
       > abbr {
         height: 28px;
         font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
@@ -364,54 +296,4 @@ const Container = styled.div<StyledType>`
       color: #cecece !important;
     }
   }
-`;
-
-const List = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  padding: 6px;
-  > li {
-    position: relative;
-    width: 100%;
-    height: 25px;
-    border: 1px solid red;
-    background-color: bisque;
-    border-radius: 8px;
-    margin-bottom: 3px;
-
-    .hover_box {
-      display: none;
-      position: absolute;
-      bottom: 25px;
-      z-index: 10;
-      width: 200px;
-      padding: 10px;
-      background-color: red;
-    }
-    &:nth-child(1) {
-      .hover_box {
-        top: 30px;
-      }
-    }
-    &:hover {
-      .hover_box {
-        display: block;
-      }
-    }
-  }
-`;
-
-const HoverName = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 15px 20px;
-  background-color: white;
-  border: 1px solid #eeeeee;
-  bottom: 50px;
-  font-size: 2rem;
-  box-shadow: 1px 1px 2px 0px rgba(25, 33, 41, 0.1);
-  border-radius: 20px;
-  z-index: 999;
 `;
