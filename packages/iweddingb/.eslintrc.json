@@ -28,6 +28,9 @@
     "react/jsx-props-no-spreading": "off",
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/mouse-events-have-key-events": "off",
-    "react/no-unstable-nested-components": "off"
+    "react/no-unstable-nested-components": "off",
+    "dot-notation": "off",
+    "no-param-reassign": "off",
+    "import/order": "off"
   }
 }

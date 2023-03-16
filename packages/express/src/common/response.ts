@@ -1,9 +1,9 @@
 import { Response } from 'express';
-const send = (res: Response, { status, data, error }: any) => {
-  if (status === 200) {
-    return res.status(status).json(data);
+const send = (res: Response, result) => {
+  if (result.status === 200) {
+    return res.status(result.status).json(result.data);
   } else {
-    return res.status(status).json(error);
+    return res.status(result.status).json(result);
   }
 };
 

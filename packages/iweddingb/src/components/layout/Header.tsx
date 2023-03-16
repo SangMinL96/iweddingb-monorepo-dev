@@ -1,9 +1,27 @@
+import { User } from '@iweddingb-workspace/shared';
+import fetcher, { execFetcher } from 'common/fetcher/fetcher';
 import React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
+import useSWR from 'swr';
 
 function Header() {
-  return <Container>Header</Container>;
+  const { data, error } = useSWR(`/login/getUser`, url => fetcher<User[]>(url));
+  const test = async () => {
+    try {
+      const result = await execFetcher('post', '/login/postUser', { id: '' });
+      console.log(result);
+    } catch (err) {
+      console.log(`Error ${err}`);
+    }
+  };
+  return (
+    <Container>
+      <button type='button' onClick={test}>
+        테스트
+      </button>
+    </Container>
+  );
 }
 
 export default React.memo(Header);

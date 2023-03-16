@@ -5,7 +5,6 @@ import useMouseEvent from '../hooks/useMouseEvent';
 
 function TileContent() {
   const [overId, setOverId] = useState(null);
-  console.log(overId);
   const onMouseOver = data => {
     setOverId(data);
   };
