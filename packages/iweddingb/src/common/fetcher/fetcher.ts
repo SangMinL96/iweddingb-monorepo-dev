@@ -2,7 +2,7 @@ import { AxiosRequestConfig } from 'axios';
 import adminAxios from './adminAxios';
 import { FetcherResultItf } from '@iweddingb-workspace/shared';
 
-async function fetcher<T>(url: string, config?: AxiosRequestConfig): Promise<{ data: T } | FetcherResultItf> {
+async function fetcher<T>(url: string, config?: AxiosRequestConfig): Promise<{ data: T } & FetcherResultItf> {
   try {
     const { data, status } = await adminAxios.get(url, config);
     return { data: data as T, status, result: 'success' };
@@ -11,17 +11,17 @@ async function fetcher<T>(url: string, config?: AxiosRequestConfig): Promise<{ d
   }
 }
 
-async function execFetcher(
+async function execFetcher<T>(
   method: 'put' | 'post' | 'delete',
   url: string,
   params,
   config?: AxiosRequestConfig,
-): Promise<{ data?: any } | FetcherResultItf> {
+): Promise<{ data?: T } & FetcherResultItf> {
   try {
     const { data, status } = await adminAxios[method](url, params, config);
-    return { ...data, status };
+    return { data: data as T, status, result: 'success' };
   } catch (error) {
-    return { data: null, error: `fetcher error\n${error}`, result: 'fail' };
+    return { status: 500, data: null, error: `fetcher error\n${error}`, result: 'fail' };
   }
 }
 

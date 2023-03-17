@@ -1,5 +1,5 @@
 import axios, { InternalAxiosRequestConfig } from 'axios';
-import { getStorage } from 'common/webStorage/storage';
+import { getAccessToken, getStorage } from 'common/webStorage/storage';
 
 // @ts-ignore
 const adminAxios = axios.create({
@@ -10,17 +10,16 @@ const adminAxios = axios.create({
       : `${process.env.NEXT_PUBLIC_API_HOST}/api/v1`,
   timeout: 90000,
 });
-
 adminAxios.defaults.withCredentials = true;
 
-const isHaveAccessToken = !!getStorage('access_token');
+const isHaveAccessToken = !!getAccessToken();
 if (isHaveAccessToken) {
-  adminAxios.defaults.headers.common['Authorization'] = `Bearer ${getStorage('access_token')}`;
+  adminAxios.defaults.headers.common['Authorization'] = `Bearer ${getAccessToken()}`;
 }
 
 adminAxios.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const token = getStorage('access_token');
+    const token = getAccessToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

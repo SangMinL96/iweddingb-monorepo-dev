@@ -1,9 +1,9 @@
 import theme from '@styles/theme';
-import React, { FocusEvent, MouseEvent, useState } from 'react';
+import React, { FocusEvent, KeyboardEvent, MouseEvent, useState } from 'react';
 import styled from 'styled-components';
 import useMouseEvent from '../hooks/useMouseEvent';
 
-function TileContent() {
+function TileContent(props) {
   const [overId, setOverId] = useState(null);
   const onMouseOver = data => {
     setOverId(data);
@@ -29,22 +29,33 @@ function TileContent() {
         <li>웨딩촬영1</li>
         <li>웨딩촬영1</li>
         <li>웨딩촬영1</li>
-        <li>웨딩촬영1</li> <li>웨딩촬영1</li> <li>웨딩촬영1</li>
+        <li>웨딩촬영1</li>
+        <li>웨딩촬영1</li>
+        <li>웨딩촬영1</li>
         <div
           className='all'
           onBlur={() => setOverId(null)}
           onClick={ev => {
             ev.preventDefault();
             ev.stopPropagation();
-            setOverId(['웨딩촬영1', '웨딩촬영2', '웨딩촬영3']);
+            setOverId(prev => (prev ? null : ['웨딩촬영1', '웨딩촬영2', '웨딩촬영3']));
           }}
-          aria-hidden='true'
+          onKeyDown={(ev: KeyboardEvent<HTMLDivElement>) => {
+            if (ev.key === 'Enter') {
+              ev.preventDefault();
+              ev.stopPropagation();
+              setOverId(prev => (prev ? null : ['웨딩촬영1', '웨딩촬영2', '웨딩촬영3']));
+            }
+          }}
+          role='button'
+          aria-label='상품전체보기'
+          tabIndex={0}
         >
           전체
         </div>
         {overId && (
           <div
-            className='dddd'
+            className='detail_list_box'
             onClick={ev => {
               ev.preventDefault();
               ev.stopPropagation();
@@ -53,9 +64,18 @@ function TileContent() {
             onMouseLeave={() => setOverId(null)}
             aria-hidden='true'
           >
-            {overId.map(item => {
-              return <p key={`${item}`}>{item}</p>;
-            })}
+            <ul className='detail_list' aria-labelledby='상품 리스트'>
+              {overId.map(item => {
+                return (
+                  <li aria-label={item} key={`${item}`}>
+                    {item}
+                  </li>
+                );
+              })}
+            </ul>
+            <div role='button' aria-label='상품전체보기' className='close_btn'>
+              닫기
+            </div>
           </div>
         )}
       </List>
@@ -86,15 +106,28 @@ const List = styled.div`
     color: white;
     background-color: rgba(38, 38, 38, 0.871);
   }
-  .dddd {
+  .detail_list_box {
+    padding-top: 20px;
     position: absolute;
     width: 300px;
-    min-height: 300px;
+    min-height: 100px;
     background-color: white;
-    top: 0;
-    left: 0;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 999;
+    ${theme.flexCenter};
+    flex-direction: column;
+    justify-content: space-between;
+    .close_btn {
+      width: 100%;
+      height: 30px;
+      ${theme.flexCenter};
+      color: white;
+      background-color: #262626;
+    }
   }
+
   > li {
     position: relative;
     width: 100%;

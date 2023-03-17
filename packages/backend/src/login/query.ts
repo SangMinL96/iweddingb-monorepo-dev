@@ -23,12 +23,31 @@ export const postUserQuery = () => {
         type_orm_test.cards
           (
             title,
-            content
+            contents
           )
         VALUES
           (
              :title,
              :contents
           )
+      `;
+};
+
+/**
+ * @param title
+ * @param contents
+ */
+export const userDataQuery = () => {
+  return `
+        SELECT
+          id,
+          name,
+          email,
+          with_id,
+          hp
+        FROM
+          wedding.user
+        WHERE
+         hp = :hp
       `;
 };

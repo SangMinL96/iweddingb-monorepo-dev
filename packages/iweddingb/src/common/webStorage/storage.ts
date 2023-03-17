@@ -14,3 +14,10 @@ export const setSessionStorage = (key: string, value: any) => {
 export const getSessionStorage = (key: string) => {
   return global.window ? parseJson(sessionStorage.getItem(key)) : '';
 };
+
+export const setAccessToken = (token: string) => {
+  return global.window && localStorage.setItem('access_token', token);
+};
+export const getAccessToken = (): string => {
+  return global.window && localStorage.getItem('access_token');
+};

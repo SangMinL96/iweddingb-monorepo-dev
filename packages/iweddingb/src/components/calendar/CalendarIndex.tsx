@@ -30,7 +30,7 @@ function CalendarIndex() {
     setRow(el?.length > 35 ? 6 : 5);
     const con = global.window && document.getElementById('calendar_container');
     setOffsetHeight(Number(con?.offsetHeight) - 130);
-  }, [height]);
+  }, [height, curDate]);
   return (
     <Container id='calendar_container' offsetHeight={`${offsetHeight}px`} row={Number(row)}>
       <Calendar
@@ -44,7 +44,7 @@ function CalendarIndex() {
         tileDisabled={({ date, activeStartDate }) => {
           //   return scheduleTileDisabled({ date, activeStartDate, data, holidayData });
         }}
-        tileContent={({ date, view }) => <TileContent />}
+        tileContent={props => <TileContent {...props} />}
       />
     </Container>
   );
@@ -151,6 +151,11 @@ const Container = styled.div<StyledType>`
       &:nth-child(42) {
         > abbr {
           color: #369afc;
+        }
+      }
+      &:nth-last-child(1) {
+        .dddd {
+          top: 60px;
         }
       }
     }
