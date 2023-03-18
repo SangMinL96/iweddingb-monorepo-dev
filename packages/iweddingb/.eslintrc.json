@@ -3,20 +3,29 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["airbnb", "airbnb/hooks", "plugin:prettier/recommended"],
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:prettier/recommended"
+  ],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
   "rules": {
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "no-plusplus": "off",
     "arrow-body-style": "off",
-    "prettier/prettier": ["error"],
+    "prettier/prettier": [
+      "error"
+    ],
     "import/extensions": "off",
     "import/no-unresolved": "off",
     "no-unused-vars": "off",
@@ -32,6 +41,6 @@
     "dot-notation": "off",
     "no-param-reassign": "off",
     "import/order": "off",
-    "no-useless-escape": "off"
+    "no-useless-escape": "off",
   }
 }

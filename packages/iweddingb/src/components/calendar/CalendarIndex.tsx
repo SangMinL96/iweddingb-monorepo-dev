@@ -7,8 +7,10 @@ import dayjs from 'dayjs';
 import useWindowDimensions from 'hooks/useWindowDimensions';
 import useMouseEvent from './hooks/useMouseEvent';
 import TileContent from './components/TileContent';
+import useGetApiTest from 'api/login/hooks';
 
 function CalendarIndex() {
+  const { data } = useGetApiTest();
   const [curDate, setCurDate] = useState<Date>(new Date());
   const ref = useRef<HTMLDivElement>(null);
   const [isCalendarMount, setIsCalendarMount] = useState<boolean>(false);

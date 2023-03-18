@@ -1,24 +1,14 @@
-import { UserInfoItf } from '@iweddingb-workspace/shared';
-import fetcher, { execFetcher } from 'common/fetcher/fetcher';
-import { setAccessToken, setStorage } from 'common/webStorage/storage';
+import postTokenTest from 'api/login/api';
+import { setAccessToken } from 'common/webStorage/storage';
 import React from 'react';
 import styled from 'styled-components';
 import theme from 'styles/theme';
-import useSWR from 'swr';
 
 function Header() {
-  const { data, error } = useSWR(`/login/getUser`, url => fetcher<any[]>(url));
-  const test = async () => {
-    try {
-      const result = await execFetcher('post', '/login/postUser', { id: '' });
-    } catch (err) {
-      console.log(`Error ${err}`);
-    }
-  };
   const testToken = async () => {
     try {
-      const result = await execFetcher<{ access_token: string }>('post', '/login/hp-login', { hp: '010-0000-0000' });
-      setAccessToken(result.data.access_token);
+      const result = await postTokenTest({ hp: '010-0000-0000' });
+      setAccessToken(result);
     } catch (err) {
       console.log(`Error ${err}`);
     }
@@ -27,9 +17,6 @@ function Header() {
     <Container>
       <button type='button' onClick={testToken}>
         토큰테스트
-      </button>
-      <button type='button' onClick={test}>
-        테스트
       </button>
     </Container>
   );
