@@ -1,8 +1,21 @@
-import React from 'react';
+import { useGlobalState } from '@hooks/zustand/useGlobalState';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import MenuCalendar from './menuCalendar/MenuCalendar';
+import ProductsAccordion from './productsAccordion/ProductsAccordion';
 
 function LeftMenu() {
-  return <Container id='left_menu'>LeftMenu</Container>;
+  const [isAccordion, setIsAccordion] = useState<boolean>(true);
+  const enterpriseInfo = useGlobalState(state => state.enterpriseInfo);
+  return (
+    <Container>
+      <MenuCalendar />
+      <ProductsAccordion>
+        <ProductsAccordion.Trigger setIsAccordion={setIsAccordion} />
+        <ProductsAccordion.List isAccordion={isAccordion} enterpriseInfo={enterpriseInfo} />
+      </ProductsAccordion>
+    </Container>
+  );
 }
 
 export default LeftMenu;
@@ -10,5 +23,4 @@ export default LeftMenu;
 const Container = styled.div`
   width: 350px;
   height: 100%;
-  background-color: red;
 `;

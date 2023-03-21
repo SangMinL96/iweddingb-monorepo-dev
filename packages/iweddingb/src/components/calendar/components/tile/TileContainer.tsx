@@ -1,9 +1,9 @@
 import theme from '@styles/theme';
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Tile from './tile/Tile';
+import Tile from './Tile';
 
-function TileContent() {
+function TileContainer() {
   const [isDetail, setIsDetail] = useState<boolean>(null);
   const mockData = ['웨딩촬영1', '웨딩촬영2', '웨딩촬영3', '웨딩촬영4'];
   return (
@@ -17,7 +17,7 @@ function TileContent() {
   );
 }
 
-export default TileContent;
+export default TileContainer;
 
 const Container = styled.div`
   width: 100%;

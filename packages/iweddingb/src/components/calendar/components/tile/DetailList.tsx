@@ -8,7 +8,6 @@ type PropsType = {
   setIsDetail: React.Dispatch<React.SetStateAction<boolean>>;
 };
 function DetailList({ products, isDetail, setIsDetail }: PropsType) {
-  console.log(isDetail);
   if (!isDetail) return null;
   return (
     <Container

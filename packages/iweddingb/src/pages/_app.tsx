@@ -1,6 +1,6 @@
 import GlobalStyles from '@styles/globalStyles';
 import dayjs from 'dayjs';
-import 'dayjs/locale/ko'; // 한국어 가져오기
+import 'dayjs/locale/ko';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { AppProps } from 'next/app';
 import dynamic from 'next/dynamic';

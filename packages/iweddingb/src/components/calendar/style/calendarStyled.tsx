@@ -1,65 +1,12 @@
 import theme from '@styles/theme';
-import Calendar from 'react-calendar';
 import styled, { css } from 'styled-components';
-import 'react-calendar/dist/Calendar.css';
-import { useEffect, useRef, useState } from 'react';
-import dayjs from 'dayjs';
-import useWindowDimensions from 'hooks/useWindowDimensions';
-import useMouseEvent from './hooks/useMouseEvent';
-import TileContent from './components/TileContent';
-import useGetApiTest from 'api/login/hooks';
-
-function CalendarIndex() {
-  const { data } = useGetApiTest();
-  const [curDate, setCurDate] = useState<Date>(new Date());
-  const ref = useRef<HTMLDivElement>(null);
-  const [isCalendarMount, setIsCalendarMount] = useState<boolean>(false);
-  const [offsetHeight, setOffsetHeight] = useState<number>(0);
-  const [row, setRow] = useState<Number>(0);
-  const { height } = useWindowDimensions();
-
-  const onViewChange = ev => {
-    setCurDate(ev.activeStartDate);
-    // setSessionStore('schedule_rtnDate', moment(ev.activeStartDate).format('YYYY-MM-DD'));
-    // mutate(ev.activeStartDate);
-    // onChange(moment(ev.activeStartDate).format('YYYY-MM-DD'));
-    // const calendar = ref.current;
-    // calendar?.setActiveStartDate(ev.activeStartDate);
-  };
-
-  useEffect(() => {
-    const el = global.window && document.querySelectorAll('button.react-calendar__tile');
-    setRow(el?.length > 35 ? 6 : 5);
-    const con = global.window && document.getElementById('calendar_container');
-    setOffsetHeight(Number(con?.offsetHeight) - 130);
-  }, [height, curDate]);
-  return (
-    <Container id='calendar_container' offsetHeight={`${offsetHeight}px`} row={Number(row)}>
-      <Calendar
-        inputRef={ref}
-        calendarType='US'
-        value={new Date()}
-        formatDay={(locale, date) => dayjs(date).format('D')}
-        onActiveStartDateChange={onViewChange}
-        minDetail='month' // 상단 네비게이션에서 '월' 단위만 보이게 설정
-        maxDetail='month'
-        tileDisabled={({ date, activeStartDate }) => {
-          //   return scheduleTileDisabled({ date, activeStartDate, data, holidayData });
-        }}
-        tileContent={props => <TileContent {...props} />}
-      />
-    </Container>
-  );
-}
-
-export default CalendarIndex;
 
 type StyledType = {
   offsetHeight: string;
   row: number;
 };
 
-const Container = styled.div<StyledType>`
+export const Container = styled.div<StyledType>`
   position: relative;
   width: 100%;
   height: 100%;
