@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/auth/auth.module';
+import { EnterpriseModule } from 'src/enterprise/enterprise.module';
 import { LoginModule } from 'src/login/login.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -13,6 +14,7 @@ import { AppService } from './app.service';
     }),
     LoginModule,
     AuthModule,
+    EnterpriseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
