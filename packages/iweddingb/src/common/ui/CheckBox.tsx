@@ -17,6 +17,7 @@ function CheckBox({ label, id, onChange }: PropsType) {
       <input
         ref={inputRef}
         type='checkbox'
+        aria-checked={isCheck}
         name={label}
         id={id}
         onChange={ev => {
@@ -24,7 +25,9 @@ function CheckBox({ label, id, onChange }: PropsType) {
           onChange(ev);
         }}
       />
-      <label htmlFor={id}>{checkBoxSVG(isCheck)}</label>
+      <label htmlFor={id} aria-hidden='true'>
+        {checkBoxSVG(isCheck)}
+      </label>
       <label htmlFor={id}>{label}</label>
     </Container>
   );

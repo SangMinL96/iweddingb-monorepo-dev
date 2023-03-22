@@ -2,7 +2,7 @@ import { useGlobalState } from '@hooks/zustand/useGlobalState';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import MenuCalendar from './menuCalendar/MenuCalendar';
-import ProductsAccordion from './productsAccordion/ProductsAccordion';
+import ProductsAccordion from './productsAccordion';
 
 function LeftMenu() {
   const [isAccordion, setIsAccordion] = useState<boolean>(true);
@@ -11,7 +11,7 @@ function LeftMenu() {
     <Container>
       <MenuCalendar />
       <ProductsAccordion>
-        <ProductsAccordion.Trigger setIsAccordion={setIsAccordion} />
+        <ProductsAccordion.Trigger isAccordion={isAccordion} setIsAccordion={setIsAccordion} />
         <ProductsAccordion.List isAccordion={isAccordion} enterpriseInfo={enterpriseInfo} />
       </ProductsAccordion>
     </Container>

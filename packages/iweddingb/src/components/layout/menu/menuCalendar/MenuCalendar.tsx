@@ -5,7 +5,6 @@ function MenuCalendar() {
   return <Container>MenuCalendar</Container>;
 }
 
-
 export default MenuCalendar;
 
 const Container = styled.section`

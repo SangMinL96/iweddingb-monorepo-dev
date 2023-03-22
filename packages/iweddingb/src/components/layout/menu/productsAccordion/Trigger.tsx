@@ -4,11 +4,12 @@ import styled from 'styled-components';
 type PropsType = {
   label?: string;
   setIsAccordion: React.Dispatch<React.SetStateAction<boolean>>;
+  isAccordion?: boolean;
 };
-function Trigger({ label = '상품 선택', setIsAccordion }: PropsType) {
+function Trigger({ label = '상품 선택', setIsAccordion, isAccordion }: PropsType) {
   return (
-    <TriggerStyled role={'button'} tabIndex={0} aria-label='펼치기버튼' onClick={() => setIsAccordion(prev => !prev)}>
-      <div>{label}</div>
+    <TriggerStyled role={'button'} tabIndex={0} onClick={() => setIsAccordion(prev => !prev)}>
+      <div aria-label={`상품 선택 ${isAccordion ? '접기' : '펼치기'}`}>{label}</div>
     </TriggerStyled>
   );
 }
