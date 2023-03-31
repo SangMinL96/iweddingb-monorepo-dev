@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "iweddingb": "yarn workspace @iweddingb-workspace/iweddingb",
-    "express": "export NODE_ENV=dev && yarn workspace @iweddingb-workspace/express",
-    "backend": "export NODE_ENV=dev && yarn workspace @iweddingb-workspace/backend",
+    "express": "yarn workspace @iweddingb-workspace/express",
+    "backend": "yarn workspace @iweddingb-workspace/backend",
     "shared": "yarn workspace @iweddingb-workspace/shared",
     "build": "yarn tsc --build --force"
   },

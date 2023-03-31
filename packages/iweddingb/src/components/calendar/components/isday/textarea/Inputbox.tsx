@@ -8,7 +8,6 @@ function Inputbox() {
 
   const onSubmit = (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    console.log(value);
   };
   return (
     <Container id='textarea' onSubmit={onSubmit}>
