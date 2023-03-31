@@ -34,11 +34,8 @@ const Container = styled.section`
 const Body = styled.div`
   display: flex;
   width: 100%;
-  height: calc(100% - 150px);
-  max-height: calc(100% - 150px);
-  @media (max-width: 1300px) {
-    flex-direction: column;
-  }
+  height: calc(100% - 56px);
+  max-height: calc(100% - 56px);
 `;
 const LeftMenuBox = styled.div``;
 

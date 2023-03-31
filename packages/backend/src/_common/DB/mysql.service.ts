@@ -1,4 +1,4 @@
-import { FetcherResultItf } from '@iweddingb-workspace/shared';
+import { ExecResultItf } from '@iweddingb-workspace/shared';
 import { Injectable } from '@nestjs/common';
 import {
   createPool,
@@ -6,7 +6,6 @@ import {
   PoolConnection,
   ResultSetHeader,
 } from 'mysql2/promise';
-import { async } from 'rxjs';
 
 @Injectable()
 export class MysqlService {
@@ -56,7 +55,7 @@ export class MysqlService {
       conn.release();
     }
   }
-  async execQuery(sql: string, params?: any): Promise<void | any> {
+  async execQuery(sql: string, params?: any): Promise<ExecResultItf> {
     const conn = await this.conn();
     try {
       if (conn) {
@@ -65,6 +64,8 @@ export class MysqlService {
         const [row] = await conn.query<ResultSetHeader>(sql, params);
         if (row) {
           return { result: 'success' };
+        } else {
+          return { result: 'fail' };
         }
       }
     } catch (err) {
@@ -74,14 +75,14 @@ export class MysqlService {
       conn.release();
     }
   }
-  async insertQuery<T>(sql: string, params?: any): Promise<T> {
+  async insertQuery(sql: string, params?: any): Promise<ExecResultItf> {
     const conn = await this.conn();
     try {
       if (conn) {
         await conn.beginTransaction();
         await this.utf8(conn);
         const [row] = await conn.query<ResultSetHeader>(sql, params);
-        return { insertId: row.insertId } as T;
+        return { result: 'success', insertId: row.insertId };
       }
     } catch (err) {
       conn.rollback();

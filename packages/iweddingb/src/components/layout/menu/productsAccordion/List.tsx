@@ -1,22 +1,67 @@
 import CheckBox from '@common/ui/CheckBox';
-import { EnterPriseResultIft } from '@iweddingb-workspace/shared';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useGlobalState } from 'store/useGlobalState';
+import { ChangeEvent, ReactEventHandler } from 'react';
+import { useRouter } from 'next/router';
+import { isEmpty, parseArray } from '@iweddingb-workspace/shared';
+import { shallow } from 'zustand/shallow';
 
-type PropsType = {
-  enterpriseInfo: EnterPriseResultIft;
-  isAccordion: boolean;
-};
+function List() {
+  const router = useRouter();
+  const { selectedproducts } = router.query;
+  const [isProductDropdown, productList] = useGlobalState(state => [state.isProductDropdown, state.productList], shallow);
 
-function List({ enterpriseInfo, isAccordion }: PropsType) {
   const variants = {
     open: { height: 'auto' },
     closed: { height: '0' },
   };
+
+  const onProductClick = (ev: ChangeEvent<HTMLInputElement>) => {
+    const id = ev.target.id as string;
+
+    if (id === '전체') {
+      return router.replace({ query: { ...router.query, selectedproducts: null } }, undefined, {
+        shallow: true,
+      });
+    }
+    const productsArr = isEmpty(selectedproducts) ? String(selectedproducts).split('::') : [];
+    const isChecked = String(selectedproducts).split('::').includes(id);
+    if (isChecked) {
+      return router.replace(
+        { query: { ...router.query, selectedproducts: productsArr.filter(item => item !== id).join('::') } },
+        undefined,
+        {
+          shallow: true,
+        },
+      );
+    }
+    return router.replace({ query: { ...router.query, selectedproducts: productsArr.concat(id).join('::') } }, undefined, {
+      shallow: true,
+    });
+  };
+
   return (
-    <ListStyled animate={isAccordion ? 'open' : 'closed'} variants={variants} transition={{ duration: 0.2 }}>
-      {enterpriseInfo?.products.map(product => {
-        return <CheckBox key={`product_${product.name}`} id={product.name} label={product.name} onChange={ev => console.log(ev)} />;
+    <ListStyled animate={isProductDropdown ? 'open' : 'closed'} variants={variants} transition={{ duration: 0.2 }}>
+      <CheckBox
+        checked={!isEmpty(selectedproducts)}
+        key='product_전체'
+        id='전체'
+        color='#111111'
+        label='전체 상품'
+        onChange={onProductClick}
+      />
+      {productList?.map(product => {
+        return (
+          <CheckBox
+            checked={String(selectedproducts).split('::').includes(String(product.no))}
+            key={`product_${product.name}`}
+            id={String(product.no)}
+            color={product?.color}
+            label={product.name}
+            onChange={onProductClick}
+          />
+        );
       })}
     </ListStyled>
   );
@@ -26,11 +71,14 @@ export default List;
 
 const ListStyled = styled(motion.ul)`
   width: 100%;
-  height: 400px;
-  background-color: red;
+  max-height: calc(100% - 356px);
+  padding: 0 20px;
   overflow-y: hidden;
   > li {
     width: 100%;
-    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 10px;
   }
 `;

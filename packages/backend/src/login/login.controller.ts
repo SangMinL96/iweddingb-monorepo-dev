@@ -1,9 +1,8 @@
 import { MysqlService } from '@common/DB/mysql.service';
 import { Jwt } from '@common/jwt/jwt';
 import { JwtAuthGuard } from '@common/jwt/jwt-auth.guard';
-import { JwtStrategy } from '@common/jwt/jwtStrategy';
 import {
-  FetcherResultItf,
+  ExecResultItf,
   LoginParamsItf,
   UserInfoItf,
 } from '@iweddingb-workspace/shared';
@@ -22,7 +21,6 @@ export class LoginController {
   @Get('/getUser')
   @UseGuards(JwtAuthGuard)
   async getUser(@Jwt() jwt: UserInfoItf): Promise<UserInfoItf[]> {
-    console.log(jwt);
     const result = await this.mysqlService.getQuery<UserInfoItf[]>(
       getUserQuery(),
       {
@@ -33,11 +31,15 @@ export class LoginController {
   }
 
   @Post('hp-login')
-  async login(@Body() body: LoginParamsItf): Promise<{ access_token: string }> {
+  async login(
+    @Body() body: LoginParamsItf,
+  ): Promise<ExecResultItf & { access_token: string; refresh_token: string }> {
     const params = {
       ...body,
     };
-    const access_token = await this.loginService.login(params);
-    return { access_token };
+    const { access_token, refresh_token } = await this.loginService.login(
+      params,
+    );
+    return { result: 'success', access_token, refresh_token };
   }
 }

@@ -1,35 +1,51 @@
-import { EnterPriseResultIft, isEmpty } from '@iweddingb-workspace/shared';
-import { useGlobalState } from 'hooks/zustand/useGlobalState';
+import { haveSsrCookieToken } from '@common/fetcher/option';
+import { getRand } from '@iweddingb-workspace/shared';
+import theme from '@styles/theme';
+import { useEnterpriseInfo } from 'api/schedule/hooks';
 import { GetServerSidePropsContext } from 'next';
-import dynamic from 'next/dynamic';
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
+import { useGlobalState } from 'store/useGlobalState';
 import styled from 'styled-components';
 
-const HallCalendarIndex = dynamic(() => import('@components/calendar/HallCalendarIndex'), { ssr: false });
+const StudioCalendarIndex = lazy(() => import('@components/calendar/StudioCalendarIndex'));
 
-type PropsType = {
-  enterpriseInfo: EnterPriseResultIft;
-  isHall: boolean;
-};
-function HomeIndexPage({ enterpriseInfo, isHall }: PropsType) {
-  const setEnterpriseInfo = useGlobalState(state => state.setEnterpriseInfo);
+function HomeIndexPage() {
+  const { data } = useEnterpriseInfo();
+  const [setProductList, resetState] = useGlobalState(state => [state.setProductList, state.resetState]);
   useEffect(() => {
-    setEnterpriseInfo(enterpriseInfo);
+    setProductList(
+      data?.products?.map(product => {
+        const randomIndex = getRand();
+        return {
+          ...product,
+          color: theme.colorPalette[randomIndex],
+          backgroundColor: theme.opacityColorPalette[randomIndex],
+        };
+      }),
+    );
+
+    return () => resetState();
   }, []);
-  return <Container>{isHall && <HallCalendarIndex />}</Container>;
+
+  return (
+    <Container>
+      <StudioCalendarIndex />
+    </Container>
+  );
 }
-
+// authorization: Bearer
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  // const { prdNo, entCode } = ctx.query;
-  const isHall = !isNaN(1486016390);
-  if (isHall) {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/enterprise/hallInfo`);
-    const data = await res.json();
-
+  if (!haveSsrCookieToken(ctx)) {
     return {
-      props: { enterpriseInfo: data, isHall }, // will be passed to the page component as props
+      redirect: {
+        permanent: false,
+        destination: `/login`,
+      },
     };
   }
+  return {
+    props: { isLogin: true }, // will be passed to the page component as props
+  };
 }
 
 export default HomeIndexPage;

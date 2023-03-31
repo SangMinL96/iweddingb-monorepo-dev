@@ -11,9 +11,10 @@
       "@components/*": ["components/*"],
       "@styles/*": ["styles/*"],
       "@common/*": ["common/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@store/*": ["store/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../shared/src/utils/fnCheck.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../shared/src/utils/fncheck.ts"],
   "exclude": ["node_modules"]
 }

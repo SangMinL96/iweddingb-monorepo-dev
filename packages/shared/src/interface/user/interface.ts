@@ -1,8 +1,7 @@
 // shared/src/user.ts
 export interface UserInfoItf {
-  id: string;
+  ent_code: string;
   name: string;
-  email: string;
-  with_id: string;
-  hp: string;
+  cont_yn: string;
+  contact_yn: string;
 }

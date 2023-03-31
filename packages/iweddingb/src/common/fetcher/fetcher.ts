@@ -1,13 +1,15 @@
-import { AxiosRequestConfig } from 'axios';
+import { AxiosRequestConfig, isAxiosError } from 'axios';
 import adminAxios from './adminAxios';
-import { FetcherResultItf } from '@iweddingb-workspace/shared';
+import { ExecResultItf } from '@iweddingb-workspace/shared';
 
-async function fetcher<T>(url: string, config?: AxiosRequestConfig): Promise<{ data: T } & FetcherResultItf> {
+async function fetcher<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
   try {
-    const { data, status } = await adminAxios.get(url, config);
-    return { data: data as T, status, result: 'success' };
+    const { data } = await adminAxios.get(url, config);
+    return data as T;
   } catch (error) {
-    return { data: null, status: 200, error: `fetcher error\n${error}`, result: 'fail' };
+    if (isAxiosError(error)) {
+      throw new Error(String(error));
+    }
   }
 }
 
@@ -16,12 +18,14 @@ async function execFetcher<T>(
   url: string,
   params,
   config?: AxiosRequestConfig,
-): Promise<{ data?: T } & FetcherResultItf> {
+): Promise<T & ExecResultItf> {
   try {
-    const { data, status } = await adminAxios[method](url, params, config);
-    return { data: data as T, status, result: 'success' };
+    const { data } = await adminAxios[method](url, params, config);
+    return data;
   } catch (error) {
-    return { status: 500, data: null, error: `fetcher error\n${error}`, result: 'fail' };
+    if (isAxiosError(error)) {
+      throw new Error(String(error));
+    }
   }
 }
 

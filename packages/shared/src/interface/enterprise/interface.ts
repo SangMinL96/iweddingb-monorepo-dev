@@ -1,3 +1,33 @@
+export interface InfoItf {
+  thumbnail: string;
+  bbs_no: number;
+  addr: string;
+  logo: string;
+  enterprise_name: string;
+  bpchk: number;
+  contents: string;
+  holiday: string;
+  parking: string;
+  parking_pee: string;
+  ent_hour_from: string;
+  ent_hour_to: string;
+  latlng: string;
+  button_type: number;
+  contents_text: string;
+  fb_thumbnail: string;
+  no: number;
+  group_no: number;
+  group_item_no: number;
+  item_value_no: number;
+  typical_code: string;
+  typical_value: string;
+  typical_type: string;
+  reg_date: Date;
+  category: string;
+  category_code: string;
+  sub_category: string;
+  typical: string;
+}
 export interface HallInfoItf {
   checkpoint: string;
   banquet_code: number;
@@ -39,6 +69,30 @@ export interface HallInfoItf {
   score_avg: string;
 }
 
+export interface ProductItf {
+  no: number;
+  enterprise_code: string;
+  name: string;
+  product_type: number;
+  thumb: string;
+  category: string;
+  product_price: number;
+  price: number;
+  cprice: number;
+  event_price: number;
+  event_option_price: number;
+  price_txt: string;
+  icon: number;
+  sub_category: string;
+  index_order: number;
+  limited_sales_cnt: number;
+  reset_jaego: number;
+  jaego: number;
+  reg_date: Date;
+  color?: string;
+  backgroundColor?: string;
+}
+
 export interface HallTypeItf {
   weddinghall_code: number;
   banquet_code: number;
@@ -69,24 +123,10 @@ export interface HallTypeItf {
   direct_check: number;
   min_direct_fee: string;
   max_direct_fee: string;
-}
-
-export interface HallScheduleItf {
-  hall_name: string;
-  weddinghall_code: number;
-  banquet_code: number;
-  name: string;
-  local: string;
-  no: number;
-  schedule_date: Date;
-  schedule_time: string;
-  comment: string;
-  status: number;
-  icon: number;
-  modify_date: Date;
+  color?: string;
 }
 
 export interface EnterPriseResultIft {
-  info: HallInfoItf;
-  products: HallTypeItf[];
+  info: InfoItf | HallInfoItf;
+  products: ProductItf[] | HallTypeItf[];
 }

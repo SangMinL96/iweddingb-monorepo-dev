@@ -1,14 +1,19 @@
 import { MysqlService } from '@common/DB/mysql.service';
 import {
-  HallInfoItf,
   EnterPriseResultIft,
+  HallInfoItf,
   HallTypeItf,
-  UserInfoItf,
-  HallScheduleItf,
+  InfoItf,
+  ProductItf,
 } from '@iweddingb-workspace/shared';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { hallInfoQuery, hallScheduleQuery, hallTypeQuery } from './query';
+import {
+  hallInfoQuery,
+  hallTypeQuery,
+  infoProductQuery,
+  infoQuery,
+} from './query';
 
 @Injectable()
 export class EnterpriseService {
@@ -18,6 +23,18 @@ export class EnterpriseService {
   ) {
     //
   }
+  async infoData(params: { ent_code: string }): Promise<EnterPriseResultIft> {
+    const [info] = await this.mysqlService.getQuery<InfoItf[]>(
+      infoQuery(),
+      params,
+    );
+    const products = await this.mysqlService.getQuery<ProductItf[]>(
+      infoProductQuery(),
+      params,
+    );
+    return { info: info, products };
+  }
+
   async hallInfoData(params: {
     ent_code: string;
   }): Promise<EnterPriseResultIft> {
@@ -30,14 +47,5 @@ export class EnterpriseService {
       params,
     );
     return { info: hallInfo, products: hallType };
-  }
-  async hallScheduleData(params: {
-    ent_code: string;
-  }): Promise<HallScheduleItf[]> {
-    const schedule = await this.mysqlService.getQuery<HallScheduleItf[]>(
-      hallScheduleQuery(),
-      params,
-    );
-    return schedule;
   }
 }

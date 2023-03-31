@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/auth/auth.module';
 import { EnterpriseModule } from 'src/enterprise/enterprise.module';
 import { LoginModule } from 'src/login/login.module';
+import { ScheduleModule } from 'src/schedule/schedule.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -15,6 +16,7 @@ import { AppService } from './app.service';
     LoginModule,
     AuthModule,
     EnterpriseModule,
+    ScheduleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

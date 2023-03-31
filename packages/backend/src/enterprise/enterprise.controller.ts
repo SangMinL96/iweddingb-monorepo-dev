@@ -1,9 +1,11 @@
+import { Jwt } from '@common/jwt/jwt';
+import { JwtAuthGuard } from '@common/jwt/jwt-auth.guard';
 import {
-  HallInfoItf,
   EnterPriseResultIft,
-  HallScheduleItf,
+  ScheduleItf,
+  UserInfoItf,
 } from '@iweddingb-workspace/shared';
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Put, Query, UseGuards } from '@nestjs/common';
 import { EnterpriseService } from './enterprise.service';
 
 @Controller('/api/v1/enterprise')
@@ -13,8 +15,13 @@ export class EnterpriseController {
   }
 
   @Get('/info')
-  getInfo(): any {
-    return 'string';
+  @UseGuards(JwtAuthGuard)
+  getInfo(@Jwt() jwt: UserInfoItf): Promise<EnterPriseResultIft> {
+    const parmas = {
+      ent_code: jwt.ent_code,
+    };
+    const result = this.enterpriseService.infoData(parmas);
+    return result;
   }
   @Get('/hallInfo')
   async getHallInfo(): Promise<EnterPriseResultIft> {
@@ -22,14 +29,6 @@ export class EnterpriseController {
       ent_code: '1486016390',
     };
     const result = this.enterpriseService.hallInfoData(parmas);
-    return result;
-  }
-  @Get('/hallSchedule')
-  async getHallSchedule(): Promise<HallScheduleItf[]> {
-    const parmas = {
-      ent_code: '1486016390',
-    };
-    const result = this.enterpriseService.hallScheduleData(parmas);
     return result;
   }
 }

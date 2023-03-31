@@ -1,5 +1,4 @@
-export interface FetcherResultItf {
-  status: number;
+export interface ExecResultItf {
   result: "success" | "fail";
-  error?: string;
+  insertId?: number | string;
 }

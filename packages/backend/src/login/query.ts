@@ -14,40 +14,43 @@ export const getUserQuery = () => {
 };
 
 /**
- * @param title
- * @param contents
- */
-export const postUserQuery = () => {
-  return `
-        INSERT INTO
-        type_orm_test.cards
-          (
-            title,
-            contents
-          )
-        VALUES
-          (
-             :title,
-             :contents
-          )
-      `;
-};
-
-/**
- * @param title
- * @param contents
+ * @param hp
+ * @param name
  */
 export const userDataQuery = () => {
   return `
         SELECT
-          id,
+          ent_code,
           name,
-          email,
-          with_id,
-          hp
+          cont_yn,
+          contact_yn
         FROM
-          wedding.user
+          center.enterprise_member
         WHERE
-         hp = :hp
+         REPLACE(hp, '-', '') = REPLACE(:hp, '-', '')
+        AND
+         name = :name
+        AND
+         cont_yn='Y'
+        AND 
+         contact_yn='Y'
+      `;
+};
+
+/**
+ * @param hp
+ * @param name
+ * @param refresh_token
+ */
+export const updateRefreshTokenQuery = () => {
+  return `
+        UPDATE
+          center.enterprise_member
+        SET
+            refresh_token = :refresh_token
+        WHERE
+          name = :name
+        AND
+        REPLACE(hp, '-', '') = REPLACE(:hp, '-', '')
       `;
 };

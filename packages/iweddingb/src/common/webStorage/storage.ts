@@ -1,4 +1,5 @@
 import { parseJson } from '@iweddingb-workspace/shared';
+import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
 export const getStorage = (key: string) => {
   return global.window ? parseJson(localStorage.getItem(key)) : '';
@@ -16,8 +17,24 @@ export const getSessionStorage = (key: string) => {
 };
 
 export const setAccessToken = (token: string) => {
-  return global.window && localStorage.setItem('access_token', token);
+  return setCookie(null, 'access_token', `${token}`, {
+    path: '/',
+  });
+};
+export const setRefreshToken = (token: string) => {
+  return setCookie(null, 'refresh_token', `${token}`, {
+    path: '/',
+  });
+};
+export const destroyAccessToken = () => {
+  destroyCookie(null, 'access_token', { path: '/' });
 };
 export const getAccessToken = (): string => {
-  return global.window && localStorage.getItem('access_token');
+  const cookies = parseCookies();
+  return cookies.access_token;
+};
+
+export const getRefreshToken = (): string => {
+  const cookies = parseCookies();
+  return cookies.refresh_token;
 };

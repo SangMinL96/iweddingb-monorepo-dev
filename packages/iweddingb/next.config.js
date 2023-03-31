@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   compiler: {
     styledComponents: {
-      ssr: false,
+      ssr: true,
     },
   },
   experimental: {

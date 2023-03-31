@@ -16,11 +16,10 @@ describe('LoginController', () => {
 
   describe('root', () => {
     const user = {
-      id: 'test1',
-      name: 'test1',
-      email: 'test1@ifamily.co.kr',
-      with_id: 'iwd435990',
-      hp: '010-0000-0000',
+      ent_code: '',
+      name: '',
+      cont_yn: '',
+      contact_yn: '',
     };
     it('should return "Hello World!"', () => {
       expect(loginController.getUser(user)).toBe('Hello World!');

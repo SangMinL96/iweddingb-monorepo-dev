@@ -1,6 +1,87 @@
 /**
  * @param ent_code
  */
+export const infoQuery = () => {
+  return `
+      SELECT 
+      bbs.thumbnail, 
+      bbs.no as bbs_no,
+      ent.addr, 
+      CONCAT('https://www.iwedding.co.kr/center/logo/', ent.logo) as logo,
+      ent.enterprise_name,
+      ent.bpchk,
+      bbs.contents,
+      IF(ent.holiday = '', ent.holiday2 , ent.holiday) AS holiday,
+      en.parking,
+      en.parking_pee,
+      ent.ent_hour_from,
+      ent.ent_hour_to,
+      ent.latlng,
+      bbs.button_type,
+      bbs.contents_text,
+      bbs.fb_thumbnail,
+      typical.*,
+      (SELECT typical_value FROM ibrandplus.ibrandplus_typical WHERE bbs_no = bbs.no AND typical_type = 'main_category') as category,
+      (SELECT typical_code FROM ibrandplus.ibrandplus_typical WHERE bbs_no = bbs.no AND typical_type = 'main_category') as category_code,
+      (SELECT  group_concat(typical_value separator ',') FROM ibrandplus.ibrandplus_typical WHERE bbs_no = bbs.no AND typical_type = 'category_type') as sub_category,
+      (SELECT group_concat(typical_value separator ' #') FROM ibrandplus.ibrandplus_typical WHERE bbs_no = bbs.no and typical_type ='typical') as typical
+    FROM
+      center.enterprise AS ent
+      LEFT JOIN  center.enterprise_new AS en ON (ent.enterprise_code = en.enterprise_code)
+      LEFT JOIN  ibrandplus.ibrandplus_typical AS typical ON (typical.typical_code = ent.enterprise_code)
+      LEFT JOIN  ibrandplus.ibrandplus_bbs AS bbs ON (typical.bbs_no = bbs.no)
+    WHERE
+      ent.enterprise_code = :ent_code
+      AND typical.typical_type = 'enterprise'
+      AND bbs.contents_category = '1'
+      AND bbs.status = '1'
+  `;
+};
+
+/**
+ * @param ent_code
+ */
+export const infoProductQuery = () => {
+  return `
+      SELECT 			    
+      wp.no, 				-- 상품번호 
+      wp.enterprise_code, 	-- 업체코드 
+      wp.name,				-- 상품명 
+      wp.product_type,		-- 상품군(번호) 
+      wp.thumb,				-- 상품 썸네일 
+      wp.category,
+      wp.product_price,		-- 상품가 
+      wp.price,				-- 상품가 
+      wp.cprice,			-- 납품가 
+      wp.event_price,		-- 이벤트가 
+      wp.event_option_price,
+      wp.price_txt,         -- 외부 노출용 금액 
+      wp.icon,               -- 아이콘
+      ct.sub_category,
+      wp.index_order,
+      wp.limited_sales_cnt,
+      wp.reset_jaego,
+      wp.jaego,
+      wp.reg_date
+    FROM
+      center.withmini_product AS wp
+    LEFT JOIN 
+      user_category.category_type AS ct on (ct.no = wp.product_type)
+    WHERE
+      wp.enterprise_code = :ent_code -- ex)co_sl_s073
+      AND wp.cate_option = '0'					-- 정상상품
+      AND wp.use_site = '1'						-- 사이트노출여부
+      AND wp.use_list = '1'						-- 리스트 노출여부
+      AND wp.main_category != '12'				-- 패키지 상품아닌것
+      AND wp.del_ok = '0'
+    ORDER BY
+    wp.index_order ASC, wp.reg_date DESC
+  `;
+};
+
+/**
+ * @param ent_code
+ */
 export const hallInfoQuery = () => {
   return `
         SELECT 
@@ -118,10 +199,8 @@ export const hallTypeQuery = () => {
 
 /**
  * @param ent_code
- * @param year
- * @param month
- * @param day
- * @param hall_code
+ * @param startDate
+ * @param endDate
  */
 export const hallScheduleQuery = () => {
   return `
@@ -136,7 +215,6 @@ export const hallScheduleQuery = () => {
     rt.schedule_date,
     rt.schedule_time,
     IF(rt.person != '0', CONCAT('최소보증인원 ', rt.person,'명이상\r\n',rt.comment), rt.comment) AS comment,
-
     rt.status,
     rt.icon,
     rt.modify_date
@@ -152,13 +230,56 @@ export const hallScheduleQuery = () => {
     rt.enterprise_code = hall.banquet_code
     WHERE
     rt.enterprise_code = :ent_code     
-  
+    AND 
+    rt.schedule_date BETWEEN :startDate AND :endDate
     AND
     rt.view_yn = '1'
     AND
     rt.schedule = '예식'
-    
     order by
     whn.name asc, rt.schedule_time asc
+    `;
+};
+
+/**
+ * @param ent_code
+ * @param startDate
+ * @param endDate
+ */
+export const scheduleQuery = () => {
+  return `
+    SELECT 
+    DISTINCT
+      rt.no,
+      rt.schedule_date,
+      rt.schedule_time,
+      rt.schedule,  
+      rt.comment,
+      rt.status,
+      rt.icon,
+      rt.modify_date,
+      p.no as product_no,
+      p.name,
+      p.enterprise_code,      
+
+      ent.enterprise_name
+    FROM
+      center.remaining_time_studio as rt
+    left join
+      center.enterprise as ent
+    on
+      ent.enterprise_code = rt.enterprise_code
+    left join
+      center.withmini_product AS p
+    ON
+        rt.product_no = p.no
+    WHERE
+      rt.enterprise_code = :ent_code          
+    AND
+       rt.schedule_date BETWEEN :startDate AND :endDate
+    AND
+        rt.view_yn = '1'
+   order by
+   p.name asc, rt.schedule_time asc
     `;
 };

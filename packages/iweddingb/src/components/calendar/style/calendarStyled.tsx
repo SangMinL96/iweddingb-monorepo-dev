@@ -6,7 +6,7 @@ type StyledType = {
   row: number;
 };
 
-export const Container = styled.div<StyledType>`
+const Container = styled.div<StyledType>`
   position: relative;
   width: 100%;
   height: 100%;
@@ -14,12 +14,17 @@ export const Container = styled.div<StyledType>`
     width: 100%;
     height: calc(100vh - 150px);
   }
+  .react-calendar__navigation {
+    display: none !important;
+  }
   .react-calendar__month-view__days {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
     & > button {
       ${props => css`
-        height: calc((${props.offsetHeight} / ${props.row}));
+        min-height: calc((${props.offsetHeight} / ${props.row}));
+        max-height: calc((${props.offsetHeight} / ${props.row}));
       `}
-
       ${theme.flexCenter};
       position: relative;
       flex-direction: column;
@@ -27,11 +32,12 @@ export const Container = styled.div<StyledType>`
       justify-content: flex-start;
       /* min-height: calc(20% - 20px); */
       padding: 6px;
-      font-size: 14px;
+      font-size: 1.4rem;
       border: 1px solid #eeeeee;
       overflow: unset !important;
       > abbr {
-        height: 28px;
+        padding: 10px;
+        font-size: 1.6rem;
         font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
           'Helvetica Neue', sans-serif;
         color: #000;
@@ -39,72 +45,6 @@ export const Container = styled.div<StyledType>`
       &:nth-child(1) {
         > abbr {
           color: #ff4e4e;
-        }
-      }
-      &:nth-child(8) {
-        > abbr {
-          color: #ff4e4e;
-        }
-      }
-
-      &:nth-child(15) {
-        > abbr {
-          color: #ff4e4e;
-        }
-      }
-      &:nth-child(22) {
-        > abbr {
-          color: #ff4e4e;
-        }
-      }
-      &:nth-child(29) {
-        > abbr {
-          color: #ff4e4e;
-        }
-      }
-      &:nth-child(36) {
-        > abbr {
-          color: #ff4e4e;
-        }
-      }
-      &:nth-child(43) {
-        > abbr {
-          color: #ff4e4e;
-        }
-      }
-      &:nth-child(7) {
-        > abbr {
-          color: #369afc;
-        }
-      }
-      &:nth-child(14) {
-        > abbr {
-          color: #369afc;
-        }
-      }
-      &:nth-child(21) {
-        > abbr {
-          color: #369afc;
-        }
-      }
-      &:nth-child(28) {
-        > abbr {
-          color: #369afc;
-        }
-      }
-      &:nth-child(35) {
-        > abbr {
-          color: #369afc;
-        }
-      }
-      &:nth-child(42) {
-        > abbr {
-          color: #369afc;
-        }
-      }
-      &:nth-last-child(1) {
-        .dddd {
-          top: 60px;
         }
       }
     }
@@ -125,75 +65,17 @@ export const Container = styled.div<StyledType>`
     position: relative;
     width: 100%;
     border: none;
-    font-size: 17px !important;
+    font-size: 1.7rem !important;
   }
-  .react-calendar__navigation {
-    ${theme.flexCenter};
-    /* width: 200px !important; */
-    min-width: 175px !important;
-    max-width: 200px !important;
-    height: 50px;
-    margin: 0 auto;
-    > button {
-      height: 24px;
-    }
-  }
-  .react-calendar__navigation button:disabled {
-    //매인 년도 월
-    background-color: white;
-    font-size: 18px;
-    font-weight: 700;
-    color: #262626;
-    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-      'Helvetica Neue', sans-serif;
-  }
-  .react-calendar__navigation__label {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: auto !important;
-    flex-grow: unset !important;
-    margin: 0 10px;
-    /* height: 100%; */
-    font-size: 16px;
-    font-weight: 700;
-  }
-  .react-calendar__navigation__prev-button {
-    display: inline-flex;
-    justify-content: flex-start;
-    align-items: center;
-    width: 24px;
-    /* height: 100%; */
-    min-width: unset;
-    font-size: 30px;
-    color: #dddddd;
-    /* transform: translateY(-2px); */
-  }
-  .react-calendar__navigation__next-button {
-    display: inline-flex;
-    justify-content: flex-end;
-    align-items: center;
-    width: 24px;
-    /* height: 100%; */
-    min-width: unset;
-    font-size: 30px;
-    color: #dddddd;
-    /* transform: translateY(-2px); */
-  }
-  .react-calendar__navigation__prev2-button {
-    display: none;
-  }
-  .react-calendar__navigation__next2-button {
-    display: none;
-  }
+
   .react-calendar__month-view__weekdays {
     ${theme.flexCenter};
     border: 1px solid #e8e8e8;
     border-bottom: none;
-    height: 80px;
-    font-size: 13px;
+    height: 48px;
+    font-size: 1.4rem;
     font-weight: 400;
-    color: #cecece;
+    color: #262626;
     abbr[title] {
       text-decoration: none;
     }
@@ -208,17 +90,22 @@ export const Container = styled.div<StyledType>`
       }
     }
   }
+
   .react-calendar__tile--active {
     background: none;
     color: inherit;
+    > abbr {
+      color: #fd4381 !important;
+    }
   }
 
   //오늘 날짜 스타일
   .react-calendar__tile--now {
-    background: none;
-
+    background: none !important;
+    border: 1px solid #eeeeee;
     > abbr {
       width: 28px;
+      ${theme.flexCenter};
       height: 28px;
       background-color: #262626 !important;
       border-radius: 50px;
@@ -251,3 +138,6 @@ export const Container = styled.div<StyledType>`
     }
   }
 `;
+
+export default Container;
+export { Container };
