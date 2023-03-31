@@ -16,7 +16,7 @@ export const parseJson = (str: string) => {
  * 만약 배열이 아닐경우 빈배열 리턴
  * es6 배열 함수 undefined 에러 방지
  */
-export const parseArray = (data) => {
+export const parseArray = (data: any) => {
   try {
     if (Array.isArray(data)) {
       return data;

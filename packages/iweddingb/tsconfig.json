@@ -12,7 +12,8 @@
       "@styles/*": ["styles/*"],
       "@common/*": ["common/*"],
       "@hooks/*": ["hooks/*"],
-      "@store/*": ["store/*"]
+      "@store/*": ["store/*"],
+      "@iweddingb-workspace/shared/*": ["@iweddingb-workspace/shared"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "../shared/src/utils/fncheck.ts"],

@@ -18,7 +18,8 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@common/*": ["src/_common/*"]
+      "@common/*": ["src/_common/*"],
+      "@iweddingb-workspace/shared/*": ["@iweddingb-workspace/shared"]
     }
   }
 }

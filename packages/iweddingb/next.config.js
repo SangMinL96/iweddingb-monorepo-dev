@@ -11,6 +11,7 @@ const nextConfig = {
     externalDir: true,
     scrollRestoration: true,
     forceSwcTransforms: true,
+    swcMinify: true,
   },
 };
 

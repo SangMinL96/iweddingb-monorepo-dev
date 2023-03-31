@@ -18,6 +18,7 @@
   ],
   "dependencies": {
     "typescript": "4.9.5",
+    "@iweddingb-workspace/shared": "*",
     "dayjs": "^1.11.7"
   },
   "devDependencies": {
