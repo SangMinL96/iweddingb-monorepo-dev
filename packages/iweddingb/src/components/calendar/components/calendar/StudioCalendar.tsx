@@ -38,7 +38,6 @@ function StudioCalendar() {
   return (
     <Container id='calendar_container' offsetHeight={`${offsetHeight}px`} row={Number(row)}>
       <Calendar
-        id='ref_calendar'
         ref={setCalendarRef}
         calendarType='US'
         value={dayjs(String(curdate)).toDate()}
@@ -52,9 +51,6 @@ function StudioCalendar() {
         onActiveStartDateChange={onViewChange}
         minDetail='month' // 상단 네비게이션에서 '월' 단위만 보이게 설정
         maxDetail='month'
-        tileDisabled={({ date, activeStartDate }) => {
-          //   return scheduleTileDisabled({ date, activeStartDate, data, holidayData });
-        }}
         tileContent={({ date }) => (
           <TileContainer
             date={date}
