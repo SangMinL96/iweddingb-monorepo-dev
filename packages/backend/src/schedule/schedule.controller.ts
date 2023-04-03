@@ -7,7 +7,7 @@ import {
   UserInfoItf,
 } from '@iweddingb-workspace/shared';
 import { Body, Controller, Get, Put, Query, UseGuards } from '@nestjs/common';
-import { ScheduleService } from './Schedule.service';
+import { ScheduleService } from './schedule.service';
 
 @Controller('/api/v1/schedule')
 export class ScheduleController {
