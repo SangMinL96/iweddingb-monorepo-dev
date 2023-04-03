@@ -40,19 +40,23 @@ adminAxios.interceptors.response.use(
       // 엑세트 토큰 만료로 재발급 요청
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
-        // 리프레쉬 토큰을 보내 검증후 엑세트 토큰 재발급
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/auth/refresh-validate`, {
-          method: 'post',
-          headers: { Authorization: `Bearer ${getRefreshToken()}` },
-        });
-        const { result, access_token } = (await res.json()) as ExecResultItf & { access_token: string };
-        if (result === 'success') {
-          setAccessToken(access_token);
-          originalRequest.headers['Authorization'] = `Bearer ${access_token}`;
-          return adminAxios(originalRequest);
+        try {
+          // 리프레쉬 토큰을 보내 검증후 엑세트 토큰 재발급
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/auth/refresh-validate`, {
+            method: 'post',
+            headers: { Authorization: `Bearer ${getRefreshToken()}` },
+          });
+          const { result, access_token } = (await res.json()) as ExecResultItf & { access_token: string };
+          if (result === 'success') {
+            setAccessToken(access_token);
+            originalRequest.headers['Authorization'] = `Bearer ${access_token}`;
+            return adminAxios(originalRequest);
+          }
+          // 재발급중 에러 로그인페이지로 보냄
+          return history.pushState({}, '', '/login');
+        } catch (err) {
+          return history.pushState({}, '', '/login');
         }
-        // 재발급중 에러 로그인페이지로 보냄
-        return history.pushState({}, '', '/login');
       }
       // 401에러를 제외한 에러
       return Promise.reject(error);

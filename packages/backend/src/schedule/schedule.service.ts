@@ -3,20 +3,16 @@ import {
   ExecResultItf,
   isEmpty,
   ScheduleItf,
-  scheduleTimeUpdateParams,
+  scheduleTimeUpdateParams
 } from '@iweddingb-workspace/shared';
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { scheduleQuery, timeUpdateQuery } from './query';
 
 @Injectable()
 export class ScheduleService {
   constructor(
-    private jwtService: JwtService,
     private readonly mysqlService: MysqlService,
-  ) {
-    //
-  }
+  ) { }
 
   async scheduleData(params: any): Promise<ScheduleItf[]> {
     let date = {};

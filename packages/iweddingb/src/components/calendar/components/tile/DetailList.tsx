@@ -12,6 +12,7 @@ type PropsType = {
 };
 function DetailList({ products, isDetail, setIsDetail, date }: PropsType) {
   if (!isDetail) return null;
+
   return (
     <Container
       onClick={ev => {

@@ -1,5 +1,4 @@
 import MainCalendarSkeleton from '@common/skeleton/MainCalendarSkeleton';
-
 import { useRouter } from 'next/router';
 import { lazy, Suspense } from 'react';
 import styled from 'styled-components';

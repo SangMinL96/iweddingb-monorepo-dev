@@ -8,6 +8,8 @@
     "express": "yarn workspace @iweddingb-workspace/express",
     "backend": "yarn workspace @iweddingb-workspace/backend",
     "shared": "yarn workspace @iweddingb-workspace/shared",
+    "iweddingb:reset": "sudo rm -rf packages/iweddingb/.next",
+    "backend:reset": "sudo rm -rf packages/backend/dist",
     "build": "yarn tsc --build --force"
   },
   "private": true,

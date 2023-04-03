@@ -1,5 +1,8 @@
+import { getStorage } from '@common/webStorage/storage';
 import { isEmpty, ScheduleItf } from '@iweddingb-workspace/shared';
+import 임시저장아이콘 from '@styles/svg/임시저장아이콘';
 import theme from '@styles/theme';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import React, { useMemo, useState } from 'react';
 import styled from 'styled-components';
@@ -18,8 +21,10 @@ function TileContainer({ date, products }: PropsType) {
       products.filter(product => !isEmpty(selectedproducts) || String(selectedproducts).split('::').includes(String(product.product_no))),
     [selectedproducts, products],
   );
+  const isTemp = isEmpty(getStorage(`${dayjs(date).format('YYYY/MM/DD')}_temp`));
   return (
     <Container>
+      {isTemp && <div className='temp_icon'>{임시저장아이콘()}</div>}
       <Tile>
         <Tile.List products={filterProducts} key='1' />
         <Tile.DetailButton setIsDetail={setIsDetail} />
@@ -36,4 +41,9 @@ const Container = styled.div`
   height: calc(100% - 70px);
   overflow-y: scroll !important;
   ${theme.hideScroll};
+  .temp_icon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+  }
 `;

@@ -1,15 +1,34 @@
+import { getStorage, setStorage } from '@common/webStorage/storage';
+import { formatToday, isEmpty } from '@iweddingb-workspace/shared';
 import 닫기아이콘 from '@styles/svg/닫기아이콘';
 import 도트아이콘 from '@styles/svg/도트아이콘';
 import theme from '@styles/theme';
 import { motion } from 'framer-motion';
-import React, { useRef, useState, useTransition } from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { debounce } from 'throttle-debounce';
 
 function Temp() {
+  const router = useRouter();
+  const { curdate = formatToday() } = router.query;
   const ref = useRef<HTMLTextAreaElement>(null);
-  const [value, setValue] = useState<string>('');
+  // const [value, setValue] = useState<string>('' || localStorage.getItem(`${curdate}_temp`));
   const [open, setOpen] = useState<boolean>(false);
-  const [_, startTransition] = useTransition();
+
+  const debounceSave = debounce(500, (text: string) => {
+    localStorage.setItem(`${curdate}_temp`, ref.current.value);
+  });
+  const onTempChange = (ev: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const text = ev.target.value;
+    return debounceSave(text);
+  };
+  useEffect(() => {
+    const tempText = localStorage.getItem(`${curdate}_temp`);
+    if (tempText && ref) {
+      ref.current.value = tempText;
+    }
+  }, []);
 
   return (
     <Container open={open} animate={open ? { height: 320, width: 260 } : { height: 40, width: 92 }}>
@@ -28,7 +47,7 @@ function Temp() {
                 borderTopRightRadius: '12px',
                 width: 260,
                 justifyContent: 'space-between',
-              }
+              } 
             : { borderRadius: '20px', width: 92 }
         }
       >
@@ -40,7 +59,7 @@ function Temp() {
         ) : (
           <>
             <p>메모 열기</p>
-            {도트아이콘()}
+            {isEmpty(global.window && localStorage.getItem(`${curdate}_temp`)) && 도트아이콘()}
           </>
         )}
       </motion.button>
@@ -49,11 +68,7 @@ function Temp() {
         className='textarea_box'
         aria-label='공지사항 입력 박스'
       >
-        <textarea
-          ref={ref}
-          value={value}
-          onChange={(ev: React.ChangeEvent<HTMLTextAreaElement>) => startTransition(() => setValue(ev.target.value))}
-        />
+        <textarea ref={ref} onChange={onTempChange} />
       </motion.div>
     </Container>
   );

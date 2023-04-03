@@ -1,4 +1,4 @@
-import { haveSsrCookieToken } from '@common/fetcher/option';
+import withAuth from '@common/hoc/withAuth';
 import { getRand } from '@iweddingb-workspace/shared';
 import theme from '@styles/theme';
 import { useEnterpriseInfo } from 'api/schedule/hooks';
@@ -34,19 +34,9 @@ function HomeIndexPage() {
   );
 }
 // authorization: Bearer
-export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  if (!haveSsrCookieToken(ctx)) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: `/login`,
-      },
-    };
-  }
-  return {
-    props: { isLogin: true }, // will be passed to the page component as props
-  };
-}
+export const getServerSideProps = withAuth(async (ctx: GetServerSidePropsContext) => {
+  return { props: {} };
+});
 
 export default HomeIndexPage;
 

@@ -15,18 +15,18 @@ import { AppService } from './app.service';
     }),
     LoginModule,
     AuthModule,
-    EnterpriseModule,
     ScheduleModule,
+    EnterpriseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
 
 function dotEnv() {
   return process.env.NODE_ENV === 'dev'
     ? '.env.dev'
     : process.env.NODE_ENV === 'production'
-    ? '.env.production'
-    : '.env.production';
+      ? '.env.production'
+      : '.env.production';
 }

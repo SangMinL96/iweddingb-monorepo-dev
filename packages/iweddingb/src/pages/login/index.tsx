@@ -1,12 +1,15 @@
-import LoginIndex from '@components/login/LoginIndex';
 import theme from '@styles/theme';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import styled from 'styled-components';
+
+const LoginIndex = lazy(() => import('@components/login/LoginIndex'));
 
 function LoginPageIndex() {
   return (
     <Container>
-      <LoginIndex />
+      <Suspense fallback={<div />}>
+        <LoginIndex />
+      </Suspense>
     </Container>
   );
 }
