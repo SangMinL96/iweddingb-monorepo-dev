@@ -6,8 +6,8 @@ import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { SWRConfig } from 'swr';
 import 'react-toastify/dist/ReactToastify.css';
-import GlobalStyles from '@styles/globalStyles';
 
+const GlobalStyles = dynamic(() => import('@styles/globalStyles'), { ssr: false });
 const Layout = dynamic(() => import('@components/layout/Layout'), { ssr: false });
 
 dayjs.extend(relativeTime);

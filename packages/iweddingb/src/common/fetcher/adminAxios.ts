@@ -41,8 +41,9 @@ adminAxios.interceptors.response.use(
       if (error.response.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
+          const apiURL = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_API_HOST : process.env.NEXT_PUBLIC_DEV_API_HOST;
           // 리프레쉬 토큰을 보내 검증후 엑세트 토큰 재발급
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/auth/refresh-validate`, {
+          const res = await fetch(`${apiURL}/api/v1/auth/refresh-validate`, {
             method: 'post',
             headers: { Authorization: `Bearer ${getRefreshToken()}` },
           });

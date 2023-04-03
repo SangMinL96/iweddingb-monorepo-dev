@@ -1,15 +1,14 @@
 import theme from '@styles/theme';
+import dynamic from 'next/dynamic';
 import React, { lazy, Suspense } from 'react';
 import styled from 'styled-components';
 
-const LoginIndex = lazy(() => import('@components/login/LoginIndex'));
+const LoginIndex = dynamic(() => import('@components/login/LoginIndex'), { ssr: false });
 
 function LoginPageIndex() {
   return (
     <Container>
-      <Suspense fallback={<div />}>
-        <LoginIndex />
-      </Suspense>
+      <LoginIndex />
     </Container>
   );
 }
