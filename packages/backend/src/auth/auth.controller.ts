@@ -37,30 +37,30 @@ export class AuthController {
       "Bearer ",
       ""
     );
-
-    const clientTokenInfo = await this.jwtService.verify(clientRefreshToken, {
-      publicKey: process.env.JWT_SECRET,
-    });
-
-    const params = {
-      name: clientTokenInfo.name,
-      ent_code: clientTokenInfo.ent_code,
-      cont_yn: clientTokenInfo.cont_yn,
-      contact_yn: clientTokenInfo.contact_yn,
-    } as UserInfoItf;
-    console.log("1");
-    const { refresh_token } = await this.authService.refreshTokenUser(params);
-    const verified = (await this.jwtService.verify(refresh_token, {
-      publicKey: process.env.JWT_SECRET,
-    })) as UserInfoItf;
-    console.log("2");
-    if (
-      params.name === verified.name &&
-      params.ent_code === verified.ent_code
-    ) {
-      const access_token = await this.authService.createToken(params);
-      return { result: "success", access_token };
-    } else {
+    try {
+      const clientTokenInfo = await this.jwtService.verify(clientRefreshToken, {
+        publicKey: process.env.JWT_SECRET,
+      });
+      const params = {
+        name: clientTokenInfo.name,
+        ent_code: clientTokenInfo.ent_code,
+        cont_yn: clientTokenInfo.cont_yn,
+        contact_yn: clientTokenInfo.contact_yn,
+      } as UserInfoItf;
+      const { refresh_token } = await this.authService.refreshTokenUser(params);
+      const verified = (await this.jwtService.verify(refresh_token, {
+        publicKey: process.env.JWT_SECRET,
+      })) as UserInfoItf;
+      if (
+        params.name === verified.name &&
+        params.ent_code === verified.ent_code
+      ) {
+        const access_token = await this.authService.createToken(params);
+        return { result: "success", access_token };
+      } else {
+        return { result: "fail", access_token: "" };
+      }
+    } catch (err) {
       return { result: "fail", access_token: "" };
     }
   }

@@ -42,6 +42,7 @@
     "no-alert": "off",
     "react-hooks/exhaustive-deps": "off",
     "camelcase": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-return-assign": "off"
   }
 }
